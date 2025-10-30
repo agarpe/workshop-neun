@@ -72,7 +72,21 @@ plt.show()
 
 ```python
 class STDPSynapse:
-    """Simple STDP synapse implementation."""
+    """
+    Simple STDP synapse implementation.
+    
+    Implements spike-timing-dependent plasticity (STDP) for learning
+    temporal correlations between pre and post-synaptic spikes.
+    
+    Parameters:
+        n_pre (int): Number of pre-synaptic neurons
+        n_post (int): Number of post-synaptic neurons
+        w_init (float): Initial synaptic weight (default: 0.5)
+        w_max (float): Maximum synaptic weight (default: 1.0)
+    
+    The STDP rule strengthens synapses when pre-synaptic spikes precede
+    post-synaptic spikes (causality), and weakens them otherwise.
+    """
     
     def __init__(self, n_pre, n_post, w_init=0.5, w_max=1.0):
         self.n_pre = n_pre

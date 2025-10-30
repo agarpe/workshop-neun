@@ -446,8 +446,9 @@ neuron = neun.LIFNeuron(
     V_th=-50.0, V_reset=-70.0
 )
 
-# Set up recording
-recorder = neun.Recorder(neuron, variables=['V', 'I_syn'])
+# Set up recording (record membrane potential only)
+# Note: Check neuron documentation for available variables
+recorder = neun.Recorder(neuron, variables=['V'])
 
 # Simulate
 dt = 0.1
@@ -464,19 +465,15 @@ for i in range(len(time)):
 # Get recorded data
 data = recorder.get_data()
 
-# Plot multiple variables
-fig, axes = plt.subplots(2, 1, figsize=(10, 6), sharex=True)
+# Plot recorded voltage
+fig, ax = plt.subplots(figsize=(10, 6))
 
-axes[0].plot(time, data['V'], 'b-', linewidth=1.5)
-axes[0].set_ylabel('Membrane Potential (mV)')
-axes[0].grid(True, alpha=0.3)
+ax.plot(time, data['V'], 'b-', linewidth=1.5)
+ax.set_ylabel('Membrane Potential (mV)')
+ax.set_xlabel('Time (ms)')
+ax.set_title('Recorded Membrane Potential', fontsize=14)
+ax.grid(True, alpha=0.3)
 
-axes[1].plot(time, data['I_syn'], 'r-', linewidth=1.5)
-axes[1].set_ylabel('Synaptic Current (nA)')
-axes[1].set_xlabel('Time (ms)')
-axes[1].grid(True, alpha=0.3)
-
-plt.suptitle('Multi-variable Recording', fontsize=14)
 plt.tight_layout()
 plt.show()
 ```

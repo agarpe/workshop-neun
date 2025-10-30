@@ -389,24 +389,26 @@ for size in layer_sizes:
 synapses_ff = []
 
 # Input → Hidden
+# p=0.5 means 50% connection probability (sparse connectivity)
 syn_IH = neun.ExponentialSynapse(
     pre_pop=layers[0],
     post_pop=layers[1],
     g_syn=0.03,
     E_syn=0.0,
     tau_syn=5.0,
-    p=0.5
+    p=0.5  # 50% of possible connections are made
 )
 synapses_ff.append(syn_IH)
 
 # Hidden → Output
+# p=0.6 means 60% connection probability (denser than input layer)
 syn_HO = neun.ExponentialSynapse(
     pre_pop=layers[1],
     post_pop=layers[2],
     g_syn=0.04,
     E_syn=0.0,
     tau_syn=5.0,
-    p=0.6
+    p=0.6  # 60% of possible connections are made
 )
 synapses_ff.append(syn_HO)
 
