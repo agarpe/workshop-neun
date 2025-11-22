@@ -10,22 +10,24 @@ format:
 
 ## Introduction to Neun
 
-Neun is a high-performance C++ library for simulating dynamical systems, aimed at modeling neural networks. The `neun_py` package provides Python bindings that are automatically generated using pybind11, giving Python users access to Neun's efficient C++ implementation.
+[Neun](https://github.com/GNB-UAM/Neun/) is a high-performance C++ library for simulating dynamical systems, aimed at modeling neural networks.
 
-### What Makes Neun Special?
+The `neun_py` package provides Python bindings to use Neun, giving users access to Neun's efficient C++ implementation in Python.
 
-- **High Performance**: C++ core with optimized numerical integrators
-- **Type Safe**: Automatic enum generation for variables and parameters
+### Why Neun?
+
+- **High performance**: C++ core with optimized numerical integrators
+- **Type safe**: Automatic enum generation for variables and parameters
 - **Flexible**: Multiple neuron models (Hodgkin-Huxley, Hindmarsh-Rose, Izhikevich, etc.)
-- **Multiple Integrators**: RungeKutta4, RungeKutta6, Euler, and Stepper
-- **Precision Options**: Both float and double precision support
-- **Header-Only C++ Library**: Easy integration in C++ projects
+- **Multiple integrators**: RungeKutta4, RungeKutta6, Euler, and Stepper
+- **Precision options**: Both float and double precision support
+- **Header-Only C++ library**: Easy integration in C++ projects
 
 ## Installation and Setup
 
 ### Installing Neun
 
-First, ensure you have Python 3.7+ and a C++ compiler with C++20 support (GCC 10+, Clang 10+). You'll need to install the Neun C++ library first, then build the Python bindings.
+First, ensure you have Python 3.8+ and a C++ compiler with C++20 support (GCC 10+, Clang 10+). You'll need to install the Neun C++ library first, then build the Python bindings.
 
 #### Installing the C++ Library
 
@@ -93,13 +95,15 @@ Individual computational units that integrate inputs and generate outputs. Neun 
 
 **Available neuron models**:
 
-- **HH**: Hodgkin-Huxley conductance model (1952)
-- **HR**: Hindmarsh-Rose model (1984)  
-- **Izhikevich**: Izhikevich spiking neuron model (2003)
-- **Matsuoka**: Matsuoka oscillator (1985)
-- **RowatSelverston**: Rowat and Selverston model (1997)
-- **Rulkov**: Rulkov Map model (2002)
-- **Vavoulis**: Vavoulis model (2007)
+| Model | Short Name | Description |
+|-------|------------|-------------|
+| **Hodgkin-Huxley** | `HH` | Classic conductance-based model |
+| **Hindmarsh-Rose** | `HR` | Simplified bursting model |
+| **Izhikevich**     |      | Izhikevich spiking neuron model (2003) |
+| **Matsuoka**       |      | Matsuoka oscillator (1985) |
+| **RowatSelverston**|      | Rowat and Selverston model (1997) |
+| **Rulkov**         |      | Rulkov Map model (2002) |
+| **Vavoulis**       |      | Vavoulis model (2007) |
 
 **Naming convention**: Models are named as `{Model}{Precision}{Integrator}`
 - Example: `HHDoubleRK4` = Hodgkin-Huxley, Double precision, RungeKutta4

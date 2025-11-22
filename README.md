@@ -6,7 +6,7 @@ Materials for the **Neun** library workshop presented at Universidad Politécnic
 
 This workshop provides a comprehensive introduction to computational neuroscience modeling and practical experience with the [Neun library](https://github.com/GNB-UAM/Neun/), a powerful C++ framework for simulating neuronal networks.
 
-* **Facilitators**: [Angel Lareo]() and [Alicia Garrido-Peña]().
+* **Facilitators**: [Angel Lareo](github.com/angellareo) and [Alicia Garrido-Peña]().
 
 ## Workshop Structure
 * Part 1: Introduction to Computational Neuroscience
