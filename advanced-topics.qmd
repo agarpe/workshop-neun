@@ -748,14 +748,6 @@ We hope you found it valuable and wish you success in your computational neurosc
 
 ## References and Resources
 
-### Key Papers
-
-1. Garrido-Peña, A., et al. (2014). Frequency-dependent response of the neocortex and the olfactory bulb. *Applications of Mathematics*, 59(6), 651-663. DOI: [10.1007/s10492-014-0069-z](https://doi.org/10.1007/s10492-014-0069-z)
-
-2. Potjans, T. C., & Diesmann, M. (2014). The cell-type specific cortical microcircuit. *Cerebral Cortex*, 24(3), 785-806.
-
-3. Brunel, N. (2000). Dynamics of sparsely connected networks of excitatory and inhibitory spiking neurons. *Journal of Computational Neuroscience*, 8(3), 183-208.
-
 ### Books
 
 - Dayan, P., & Abbott, L. F. (2001). *Theoretical Neuroscience*. MIT Press.

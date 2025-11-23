@@ -1,9 +1,6 @@
 ---
 title: "Part 1: Introduction to Computational Neuroscience"
 subtitle: "Foundations and Motivation for Neural Modeling"
-author: 
-  - "Dr. Angel Lareo"
-  - "Dr. Alicia Garrido-Peña"
 format:
   html:
     toc: true
@@ -35,7 +32,7 @@ Consider these facts:
 
 ### The Role of Mathematical Modeling
 
-As demonstrated in the work of Garrido-Peña, Lareo, and colleagues (2014), computational approaches allow us to:
+Computational approaches allow us to:
 
 - Analyze frequency-dependent responses in neural circuits
 - Understand how different brain regions (e.g., neocortex vs. olfactory bulb) process information differently
@@ -45,7 +42,7 @@ As demonstrated in the work of Garrido-Peña, Lareo, and colleagues (2014), comp
 ::: {.callout-note}
 ## Key Insight from Research
 
-The frequency-dependent response of neural circuits is not uniform across brain regions. The neocortex and olfactory bulb show distinct filtering properties, which can be understood through mathematical modeling of their underlying circuit architecture (Garrido-Peña et al., 2014, DOI: [10.1007/s10492-014-0069-z](https://doi.org/10.1007/s10492-014-0069-z)).
+The frequency-dependent response of neural circuits is not uniform across brain regions. The neocortex and olfactory bulb show distinct filtering properties, which can be understood through mathematical modeling of their underlying circuit architecture.
 :::
 
 ## Levels of Neural Modeling
@@ -151,19 +148,6 @@ In large networks, we often care about **population-level** properties:
 - **Synchrony**: How coordinated is the activity?
 - **Oscillations**: Rhythmic patterns of activity
 - **Frequency responses**: How does the network respond to inputs at different frequencies?
-
-::: {.callout-important}
-## Frequency-Dependent Responses
-
-As shown by Garrido-Peña et al. (2014), neural circuits exhibit frequency-dependent filtering. This means that:
-
-- Different frequency inputs are processed differently
-- Circuit architecture (connectivity, synaptic properties) determines the frequency response
-- Brain regions have distinct frequency preferences
-- Understanding these properties requires both experimental measurements and computational models
-
-This is crucial for understanding how neural circuits process temporal information and generate oscillations.
-:::
 
 ## Key Principles for Modeling
 

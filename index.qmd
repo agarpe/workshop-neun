@@ -3,7 +3,9 @@ title: "Introduction to Computational Neuroscience with Neun"
 subtitle: "Workshop at Universidad Politécnica Salesiana"
 author: 
   - "Dr. Angel Lareo"
-date: "2025"
+  - "Dr. Alicia Garrido-Peña"
+date: last-modified
+date-format: "MMMM D, YYYY"
 format:
   html:
     toc: true
@@ -14,7 +16,17 @@ format:
 
 Welcome to this hands-on workshop on computational neuroscience using the **Neun** library. This workshop is designed to provide you with both theoretical foundations and practical skills for modeling neural systems.
 
-During the workshop, feel free to ask questions at any time. After the workshop, you can:
+**Facilitators**:
+
+* Dr. Ángel Lareo
+
+* Dr. Alicia Garrido-Peña
+
+[More info about the facilitators...](facilitators.qmd)
+
+During the workshop, feel free to **ask questions at any time**.
+
+After the workshop, you can:
 
 - Open issues on the [workshop repository](https://github.com/angellareo/workshop-neun)
 - [Contact the facilitators](mailto:angel.lareo@uam.es,alicia.garrido@uam.es?subject=[UPS2025%20Neun%20Workshop])
@@ -26,8 +38,6 @@ Computational neuroscience bridges the gap between experimental observations and
 1. **Theoretical Foundations**: Understanding why and how we model neural systems
 2. **Practical Skills**: Learning to use the Neun library for neural simulations
 3. **Real Applications**: Connecting models to experimental findings
-
-[More info about the facilitators...](facilitators.qmd)
 
 ## The Neun Library
 
@@ -117,7 +127,7 @@ Navigate through the workshop using the menu above:
 - **[Part 2: Neun Basics](02-neun-basics.qmd)** - Getting started with the library
 - **[Single Neurons](03-single-neurons.qmd)** - Modeling individual neurons
 - **[Neural Networks](04-neural-networks.qmd)** - Building connected networks
-- **[Advanced Topics](05-advanced-topics.qmd)** - Complex modeling scenarios
+- **[Conclusions](05-conclusions.qmd)** - Complex modeling scenarios
 
 ## Additional Resources
 

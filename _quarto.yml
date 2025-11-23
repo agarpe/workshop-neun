@@ -4,31 +4,34 @@ project:
 
 website:
   title: "Introduction to Computational Neuroscience with Neun"
-  navbar:
+  sidebar:
+    style: "docked"
     background: primary
-    left:
+    contents:
       - text: "Home"
         file: index.qmd
       - text: "Part 1: Computational Neuroscience"
         file: 01-intro-compneuro.qmd
-      - text: "Part 2: Neun Library"
-        menu:
-          - text: "Getting Started"
-            file: 02-neun-basics.qmd
-          - text: "Single Neurons"
-            file: 03-single-neurons.qmd
-          - text: "Neural Networks"
-            file: 04-neural-networks.qmd
-          - text: "Advanced Topics"
-            file: 05-advanced-topics.qmd
-    right:
-      - icon: github
+      - section: "Part 2: Simulations with Neun"
+        contents:
+        - text: "Intro to Neun"
+          file: 02-neun-basics.qmd
+        - text: "Neurons"
+          file: 03-single-neurons.qmd
+        - text: "Synapsis & Networks"
+          file: 04-neural-networks.qmd
+      - text: "Part 3: Analysis and Visualization"
+        file: 04-neural-networks.qmd
+      - text: "Part 4: Conclusions"
+        file: 05-conclusions.qmd
+      - text: "---"
+      - text: "Neun GitHub"
+        icon: github
         href: https://github.com/GNB-UAM/Neun/
-        text: "Neun GitHub"
 
 format:
   html:
-    theme: cosmo
+    theme: litera
     css: styles.css
     toc: true
     toc-depth: 3

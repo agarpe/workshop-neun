@@ -42,8 +42,17 @@ pip install -r requirements.txt
 
 ### Viewing the Workshop Materials
 
-This workshop is built using Quarto. To render and view the materials:
+This workshop is built using Quarto. 
 
+To install Quarto CLI:
+```bash
+# Debian/Ubuntu
+wget https://quarto.org/download/latest/quarto-linux-amd64.deb && sudo dpkg -i quarto-linux-amd64.deb
+# Conda
+conda install -c conda-forge quarto
+```
+
+To render and view the materials:
 ```bash
 quarto preview
 ```
