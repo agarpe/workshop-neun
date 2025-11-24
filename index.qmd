@@ -95,7 +95,7 @@ In your system, please ensure you have:
 
 ```bash
 # Clone the workshop repository
-git clone https://github.com/angellareo/neun_py.git
+git clone https://github.com/GNB-UAM/neun_py.git
 cd neun_py
 
 # Create a virtual environment (recommended)
