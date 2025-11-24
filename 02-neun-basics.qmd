@@ -29,6 +29,18 @@ The `neun_py` package provides Python bindings to use Neun, giving users access 
 
 First, ensure you have Python 3.8+ and a C++ compiler with C++20 support (GCC 10+, Clang 10+). You'll need to install the Neun C++ library first, then build the Python bindings.
 
+::: {.callout-tip}
+## Using Virtual Environments
+
+It's recommended to use a virtual environment for the workshop:
+
+```bash
+python -m venv neun-workshop
+source neun-workshop/bin/activate  # On Windows: neun-workshop\Scripts\activate
+pip install -r requirements.txt
+```
+:::
+
 #### Installing the C++ Library
 
 ```bash
@@ -52,15 +64,51 @@ make  # Generates code and installs in editable mode
 # Or install with optional dependencies for examples
 pip install neun_py[examples]  # Includes matplotlib and numpy
 ```
+Let's check that everything (both the C++ library and the Python bindings) is installed correctly.
 
-### Verifying Installation
+### Verifying Installation of the Neun C++ library
 
-Let's check that everything is installed correctly:
+```bash
+echo '#include <DifferentialNeuronWrapper.h>
+#include <HodgkinHuxleyModel.h>
+#include <RungeKutta4.h>
+#include <SystemWrapper.h>
+#include <iostream>
+typedef RungeKutta4 Integrator;
+typedef DifferentialNeuronWrapper<SystemWrapper<HodgkinHuxleyModel<double>>, Integrator>
+    Neuron;
 
-```python
-import neun_py
+int main() {
+    // Struct to initialize neuron model parameters
+    Neuron::ConstructorArgs args;
+
+    // Initialize a new neuron model
+    Neuron n(args);
+
+    std::cout << "Neun C++ library loaded successfully!" << std::endl;
+    return 0;
+}' > test_neun.cpp
+g++ -std=c++20 test_neun.cpp -o test_neun -I/usr/local/Neun/0.4.0/
+# clang++ -std=c++20 test_neun.cpp -o test_neun -I/usr/local/Neun/0.4.0/  # If using Clang
+./test_neun
+```
+
+::: {.callout-tip}
+## Use an appropriate C++ compiler
+Make sure to use a C++ compiler that supports C++20 (e.g., GCC 10+, Clang 10+).
+
+If you are using Windows, consider installing MinGW or using WSL for a Linux-like environment.
+
+If you are using MacOS, you may need to install GCC/Clang via Homebrew: brew install gcc
+:::
+
+### Verifying Installation of the neun_py Python Bindings
+
+Now, let's check that you can use the python bindings:
+
+```bash
+python -c 'import neun_py
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Check available neuron models
 neurons = neun_py.get_available_neurons()
@@ -70,18 +118,14 @@ print(f"Available neuron types: {neurons}")
 synapses = neun_py.get_available_synapses()
 print(f"Available synapse types: {synapses}")
 
-print("\nNeun Python bindings loaded successfully!")
+print("\nNeun Python bindings loaded successfully!")'
 ```
 
 ::: {.callout-tip}
-## Using Virtual Environments
-
-It's recommended to use a virtual environment for the workshop:
-
+## Remember to use the Virtual Environment
+If you set up a virtual environment, remember to activate it each time before running your Python scripts:
 ```bash
-python -m venv neun-workshop
 source neun-workshop/bin/activate  # On Windows: neun-workshop\Scripts\activate
-pip install -r requirements.txt
 ```
 :::
 
@@ -116,8 +160,9 @@ Connections between neurons that transmit signals.
 
 - **Diffusion Synapse**: Based on Destexhe et al. 1994
 - **Electrical Synapse** (`ESyn`): Gap junction coupling
+<!-- These are not currently available in neun_py:
 - **Conductance-based Direct Synapse**: Synaptic conductance
-- **Sigmoidal Direct Synapse**: Nonlinear transmission
+- **Sigmoidal Direct Synapse**: Nonlinear transmission -->
 
 **Naming convention**: `{SynapseType}{Neuron1}{Neuron2}{Precision}{Integrator}`
 - Example: `ESynHHHHDoubleRK4` = Electrical synapse between two HH neurons
@@ -138,9 +183,9 @@ Numerical methods for solving differential equations.
 Neun uses type-safe enums for accessing neuron properties:
 
 - **Parameters**: Model constants (e.g., conductances, capacitances)
-  - Set using `neuron.set_param(enum, value)`
+  - Set value using `neuron.set_param(enum, value)`
 - **Variables**: Dynamic state (e.g., membrane potential, gating variables)
-  - Set using `neuron.set_var(enum, value)` or `neuron.set(enum, value)`
+  - Set value using `neuron.set_var(enum, value)` or `neuron.set(enum, value)`
   - Get using `neuron.get(enum)`
 
 Example enums: `HHDoubleParameter.cm`, `HHDoubleVariable.v`
@@ -149,63 +194,8 @@ Example enums: `HHDoubleParameter.cm`, `HHDoubleVariable.v`
 
 Let's create a simple Hodgkin-Huxley neuron simulation to understand the basic workflow:
 
-```python
-import neun_py
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Step 1: Create constructor arguments
-args = neun_py.HHDoubleConstructorArgs()
-
-# Step 2: Create a Hodgkin-Huxley neuron with Double precision and RK4 integrator
-neuron = neun_py.HHDoubleRK4(args)
-
-# Step 3: Set parameter values
-neuron.set_param(neun_py.HHDoubleParameter.cm, 1.0 * 7.854e-3)    # Capacitance
-neuron.set_param(neun_py.HHDoubleParameter.vna, 50.0)            # Na reversal
-neuron.set_param(neun_py.HHDoubleParameter.vk, -77.0)            # K reversal  
-neuron.set_param(neun_py.HHDoubleParameter.vl, -54.387)          # Leak reversal
-neuron.set_param(neun_py.HHDoubleParameter.gna, 120 * 7.854e-3)  # Na conductance
-neuron.set_param(neun_py.HHDoubleParameter.gk, 36 * 7.854e-3)    # K conductance
-neuron.set_param(neun_py.HHDoubleParameter.gl, 0.3 * 7.854e-3)   # Leak conductance
-
-# Step 4: Set initial conditions
-neuron.set_var(neun_py.HHDoubleVariable.v, -80.0)  # Membrane potential
-neuron.set_var(neun_py.HHDoubleVariable.m, 0.1)    # Na activation
-neuron.set_var(neun_py.HHDoubleVariable.n, 0.7)    # K activation
-neuron.set_var(neun_py.HHDoubleVariable.h, 0.01)   # Na inactivation
-
-# Step 5: Run simulation
-dt = 0.001            # Time step (ms)
-T = 100               # Simulation duration (ms)
-time = np.arange(0, T, dt)
-
-V = []  # Membrane potential storage
-
-for t in time:
-    # Add external current input
-    neuron.add_synaptic_input(0.1)  # Constant input current
-    
-    # Step neuron forward
-    neuron.step(dt)
-    
-    # Record voltage
-    V.append(neuron.get(neun_py.HHDoubleVariable.v))
-
-# Step 6: Visualize
-fig, ax = plt.subplots(figsize=(10, 6))
-
-ax.plot(time, V, 'b-', linewidth=1.5)
-ax.set_xlabel('Time (ms)')
-ax.set_ylabel('Membrane Potential (mV)')
-ax.set_title('Hodgkin-Huxley Neuron - Basic Simulation')
-ax.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.show()
-
-print(f"Simulation completed: {len(time)} time steps")
-print(f"Final voltage: {V[-1]:.2f} mV")
+```{.python filename="src/first-program.py"}
+{{< include src/first-program.py >}}
 ```
 
 ::: {.callout-note}
@@ -213,10 +203,9 @@ print(f"Final voltage: {V[-1]:.2f} mV")
 
 The basic Neun workflow consists of:
 
-1. **Create constructor args** for the neuron model
-2. **Instantiate neuron** with model type, precision, and integrator
-3. **Set parameters** using enums (e.g., `HHDoubleParameter.cm`)
-4. **Set initial conditions** for variables
+1. **Instantiate neuron** with model type, precision, and integrator
+2. **Create constructor args** for the neuron model and **set parameters** using enums (e.g., `HHDoubleParameter.cm`)
+4. \[Optional] **Set initial conditions** for variables
 5. **Simulate** by stepping through time with `neuron.step(dt)`
 6. **Add inputs** with `neuron.add_synaptic_input(current)`
 7. **Read state** using `neuron.get(variable_enum)`
@@ -346,10 +335,9 @@ plt.show()
 - **HH (Hodgkin-Huxley)**: Biophysically detailed, captures ion channel dynamics
 - **HR (Hindmarsh-Rose)**: Bursting and chaotic behavior, moderate complexity
 - **Izhikevich**: Various firing patterns with simple equations
-- **Matsuoka**: Central pattern generator, oscillatory networks
-- **Rulkov**: Map-based model, computationally efficient
 
 **Integrator Selection**:
+
 - **RK4**: Best balance of accuracy and speed (recommended)
 - **RK6**: Higher accuracy for sensitive systems
 - **Euler**: Fast but less accurate
@@ -357,168 +345,9 @@ plt.show()
 **Precision**: Use `Double` for most cases, `Float` for large-scale simulations
 :::
 
-## Working with Coupled Neurons
-
-Neun supports synaptic connections between neurons. Let's create two coupled Hodgkin-Huxley neurons:
-
-```python
-import neun_py
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Create constructor arguments
-args = neun_py.HHDoubleConstructorArgs()
-
-# Create two HH neurons
-h1 = neun_py.HHDoubleRK4(args)
-h2 = neun_py.HHDoubleRK4(args)
-
-# Set parameters for both neurons
-for neuron in [h1, h2]:
-    neuron.set_param(neun_py.HHDoubleParameter.cm, 1.0 * 7.854e-3)
-    neuron.set_param(neun_py.HHDoubleParameter.vna, 50.0)
-    neuron.set_param(neun_py.HHDoubleParameter.vk, -77.0)
-    neuron.set_param(neun_py.HHDoubleParameter.vl, -54.387)
-    neuron.set_param(neun_py.HHDoubleParameter.gna, 120 * 7.854e-3)
-    neuron.set_param(neun_py.HHDoubleParameter.gk, 36 * 7.854e-3)
-    neuron.set_param(neun_py.HHDoubleParameter.gl, 0.3 * 7.854e-3)
-
-# Set different initial conditions
-h1.set_var(neun_py.HHDoubleVariable.v, -75.0)  # Neuron 1 depolarized
-h2.set_var(neun_py.HHDoubleVariable.v, -80.0)  # Neuron 2 at rest
-
-# Create electrical synapse connecting the neurons
-synapse = neun_py.ESynHHHHDoubleRK4(
-    h1, neun_py.HHDoubleVariable.v,  # Source neuron and variable
-    h2, neun_py.HHDoubleVariable.v,  # Target neuron and variable
-    -0.002, -0.002                    # Conductances (bidirectional)
-)
-
-# Simulation
-dt = 0.001
-T = 100
-time = np.arange(0, T, dt)
-
-v1_values = []
-v2_values = []
-synaptic_currents = []
-
-for t in time:
-    # Step synapse first
-    synapse.step(dt)
-    
-    # Add external input to first neuron
-    h1.add_synaptic_input(0.1)
-    
-    # Step both neurons
-    h1.step(dt)
-    h2.step(dt)
-    
-    # Record
-    v1_values.append(h1.get(neun_py.HHDoubleVariable.v))
-    v2_values.append(h2.get(neun_py.HHDoubleVariable.v))
-    synaptic_currents.append(synapse.get(neun_py.ESynDoubleVariable.i1))
-
-# Plot results
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8))
-
-# Membrane potentials
-ax1.plot(time, v1_values, label='Neuron 1', linewidth=1.5, color='blue')
-ax1.plot(time, v2_values, label='Neuron 2', linewidth=1.5, color='red')
-ax1.set_ylabel('Membrane Potential (mV)')
-ax1.set_title('Coupled Hodgkin-Huxley Neurons via Electrical Synapse')
-ax1.legend()
-ax1.grid(True, alpha=0.3)
-
-# Synaptic current
-ax2.plot(time, synaptic_currents, linewidth=1.5, color='purple')
-ax2.set_ylabel('Synaptic Current')
-ax2.set_xlabel('Time (ms)')
-ax2.set_title('Electrical Synaptic Current')
-ax2.grid(True, alpha=0.3)
-
-plt.tight_layout()
-plt.show()
-```
-
 ## Input Patterns
 
-Neun supports various input patterns through `add_synaptic_input()`:
-
-### Constant Current
-
-```python
-# Applied at each time step
-for t in time:
-    neuron.add_synaptic_input(2.0)  # Constant 2.0 nA
-    neuron.step(dt)
-```
-
-### Time-Varying Current
-
-```python
-# Step current
-for i, t in enumerate(time):
-    if 50 <= t < 150:  # Step from 50 to 150 ms
-        neuron.add_synaptic_input(3.0)
-    else:
-        neuron.add_synaptic_input(0.0)
-    neuron.step(dt)
-```
-
-### Ramp Current
-
-```python
-# Linearly increasing current
-I_max = 5.0
-for i, t in enumerate(time):
-    I_current = (I_max * t) / time[-1]
-    neuron.add_synaptic_input(I_current)
-    neuron.step(dt)
-```
-
-### Noisy Current
-
-```python
-# Gaussian white noise
-I_base = 1.0
-sigma = 0.5
-for t in time:
-    I_noisy = I_base + sigma * np.random.randn()
-    neuron.add_synaptic_input(I_noisy)
-    neuron.step(dt)
-```
-
-### Sinusoidal Current
-
-```python
-# Oscillatory input
-frequency = 10  # Hz
-I_amplitude = 1.0
-I_offset = 1.5
-for t in time:
-    I_sin = I_offset + I_amplitude * np.sin(2 * np.pi * frequency * t / 1000)
-    neuron.add_synaptic_input(I_sin)
-    neuron.step(dt)
-```
-
-### Pulse Train
-
-```python
-# Brief current pulses
-pulse_times = [50, 100, 150, 200]  # ms
-pulse_duration = 5  # ms
-pulse_amplitude = 3.0  # nA
-
-for t in time:
-    I_pulse = 0.0
-    for t_pulse in pulse_times:
-        if t_pulse <= t < t_pulse + pulse_duration:
-            I_pulse = pulse_amplitude
-            break
-    neuron.add_synaptic_input(I_pulse)
-    neuron.step(dt)
-```
+Neun supports [various input patterns](input-patterns.qmd) through `add_synaptic_input()`.
 
 ## Recording and Analysis
 
@@ -601,69 +430,9 @@ plt.show()
 
 A key use of simulations is exploring parameter space:
 
-```python
-import neun_py
-import numpy as np
-import matplotlib.pyplot as plt
 
-# Explore effect of different sodium conductances
-gna_values = np.linspace(80, 160, 10) * 7.854e-3
-firing_frequencies = []
-
-dt = 0.001
-T = 500  # Longer simulation for frequency estimation
-time = np.arange(0, T, dt)
-
-for gna in gna_values:
-    # Create neuron
-    args = neun_py.HHDoubleConstructorArgs()
-    neuron = neun_py.HHDoubleRK4(args)
-    
-    # Set parameters
-    neuron.set_param(neun_py.HHDoubleParameter.cm, 1.0 * 7.854e-3)
-    neuron.set_param(neun_py.HHDoubleParameter.vna, 50.0)
-    neuron.set_param(neun_py.HHDoubleParameter.vk, -77.0)
-    neuron.set_param(neun_py.HHDoubleParameter.vl, -54.387)
-    neuron.set_param(neun_py.HHDoubleParameter.gna, gna)  # Vary this
-    neuron.set_param(neun_py.HHDoubleParameter.gk, 36 * 7.854e-3)
-    neuron.set_param(neun_py.HHDoubleParameter.gl, 0.3 * 7.854e-3)
-    
-    # Set initial conditions
-    neuron.set_var(neun_py.HHDoubleVariable.v, -80.0)
-    neuron.set_var(neun_py.HHDoubleVariable.m, 0.1)
-    neuron.set_var(neun_py.HHDoubleVariable.n, 0.7)
-    neuron.set_var(neun_py.HHDoubleVariable.h, 0.01)
-    
-    # Simulate and count spikes
-    V = []
-    spike_count = 0
-    for t in time:
-        neuron.add_synaptic_input(0.15)
-        neuron.step(dt)
-        V.append(neuron.get(neun_py.HHDoubleVariable.v))
-    
-    # Detect spikes (simple threshold crossing)
-    V = np.array(V)
-    spikes = np.where((V[:-1] < 0) & (V[1:] >= 0))[0]
-    
-    # Calculate frequency
-    if len(spikes) > 1:
-        # Use interval between first and last spike
-        freq = (len(spikes) - 1) / ((spikes[-1] - spikes[0]) * dt / 1000)
-    else:
-        freq = 0
-    
-    firing_frequencies.append(freq)
-
-# Plot parameter sweep
-fig, ax = plt.subplots(figsize=(8, 6))
-ax.plot(gna_values / 7.854e-3, firing_frequencies, 'o-', linewidth=2, markersize=6)
-ax.set_xlabel('Na Conductance (mS/cm²)')
-ax.set_ylabel('Firing Frequency (Hz)')
-ax.set_title('Effect of Sodium Conductance on Firing Frequency')
-ax.grid(True, alpha=0.3)
-plt.tight_layout()
-plt.show()
+```{.python filename="src/parameter-exploration.py"}
+{{< include src/parameter-exploration.py >}}
 ```
 
 ::: {.callout-tip}
@@ -676,113 +445,7 @@ plt.show()
 5. **Compare with experimental data** when available
 :::
 
-## Best Practices
-
-### 1. Organize Your Code
-
-```python
-# Good practice: organize simulation code
-def create_hh_neuron():
-    """Create a Hodgkin-Huxley neuron with standard parameters."""
-    args = neun_py.HHDoubleConstructorArgs()
-    neuron = neun_py.HHDoubleRK4(args)
-    
-    # Set standard HH parameters
-    neuron.set_param(neun_py.HHDoubleParameter.cm, 1.0 * 7.854e-3)
-    neuron.set_param(neun_py.HHDoubleParameter.vna, 50.0)
-    neuron.set_param(neun_py.HHDoubleParameter.vk, -77.0)
-    neuron.set_param(neun_py.HHDoubleParameter.vl, -54.387)
-    neuron.set_param(neun_py.HHDoubleParameter.gna, 120 * 7.854e-3)
-    neuron.set_param(neun_py.HHDoubleParameter.gk, 36 * 7.854e-3)
-    neuron.set_param(neun_py.HHDoubleParameter.gl, 0.3 * 7.854e-3)
-    
-    # Set initial conditions
-    neuron.set_var(neun_py.HHDoubleVariable.v, -80.0)
-    neuron.set_var(neun_py.HHDoubleVariable.m, 0.1)
-    neuron.set_var(neun_py.HHDoubleVariable.n, 0.7)
-    neuron.set_var(neun_py.HHDoubleVariable.h, 0.01)
-    
-    return neuron
-
-def run_simulation(neuron, I_ext, dt, T):
-    """Run simulation and return time and voltage arrays."""
-    time = np.arange(0, T, dt)
-    V = []
-    
-    for t in time:
-        neuron.add_synaptic_input(I_ext)
-        neuron.step(dt)
-        V.append(neuron.get(neun_py.HHDoubleVariable.v))
-    
-    return time, V
-
-# Use it
-neuron = create_hh_neuron()
-time, V = run_simulation(neuron, I_ext=0.1, dt=0.001, T=100)
-```
-
-### 2. Document Parameters
-
-```python
-# Always document what parameters mean and their units
-HH_PARAMS = {
-    'cm': 1.0 * 7.854e-3,      # Membrane capacitance (μF/cm²)
-    'vna': 50.0,               # Na reversal potential (mV)
-    'vk': -77.0,               # K reversal potential (mV)
-    'vl': -54.387,             # Leak reversal potential (mV)
-    'gna': 120 * 7.854e-3,     # Na conductance (mS/cm²)
-    'gk': 36 * 7.854e-3,       # K conductance (mS/cm²)
-    'gl': 0.3 * 7.854e-3       # Leak conductance (mS/cm²)
-}
-
-def set_hh_params(neuron, params):
-    """Set HH neuron parameters from a dictionary."""
-    neuron.set_param(neun_py.HHDoubleParameter.cm, params['cm'])
-    neuron.set_param(neun_py.HHDoubleParameter.vna, params['vna'])
-    neuron.set_param(neun_py.HHDoubleParameter.vk, params['vk'])
-    neuron.set_param(neun_py.HHDoubleParameter.vl, params['vl'])
-    neuron.set_param(neun_py.HHDoubleParameter.gna, params['gna'])
-    neuron.set_param(neun_py.HHDoubleParameter.gk, params['gk'])
-    neuron.set_param(neun_py.HHDoubleParameter.gl, params['gl'])
-```
-
-### 3. Use Meaningful Variable Names
-
-```python
-# Good
-membrane_voltage = neuron.get(neun_py.HHDoubleVariable.v)
-sodium_activation = neuron.get(neun_py.HHDoubleVariable.m)
-
-# Avoid
-v = neuron.get(neun_py.HHDoubleVariable.v)
-m = neuron.get(neun_py.HHDoubleVariable.m)
-```
-
-### 4. Save Important Results
-
-```python
-import json
-
-# Save results for later analysis
-results = {
-    'model': 'HHDoubleRK4',
-    'parameters': HH_PARAMS,
-    'simulation': {
-        'dt': dt,
-        'T': T,
-        'external_current': 0.1
-    },
-    'voltage_trace': V,  # List is JSON serializable
-    'time': time.tolist()  # Convert numpy array to list
-}
-
-with open('hh_simulation_results.json', 'w') as f:
-    json.dump(results, f, indent=2)
-```
-
-## Common Patterns and Idioms
-
-### Running Multiple Trials
+## Running Multiple Trials
 
 ```python
 import neun_py

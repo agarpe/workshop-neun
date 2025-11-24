@@ -1,0 +1,103 @@
+## Best Coding Practices
+
+### 1. Organize Your Code
+
+```python
+# Good practice: organize simulation code
+def create_hh_neuron():
+    """Create a Hodgkin-Huxley neuron with standard parameters."""
+    args = neun_py.HHDoubleConstructorArgs()
+    neuron = neun_py.HHDoubleRK4(args)
+    
+    # Set standard HH parameters
+    neuron.set_param(neun_py.HHDoubleParameter.cm, 1.0 * 7.854e-3)
+    neuron.set_param(neun_py.HHDoubleParameter.vna, 50.0)
+    neuron.set_param(neun_py.HHDoubleParameter.vk, -77.0)
+    neuron.set_param(neun_py.HHDoubleParameter.vl, -54.387)
+    neuron.set_param(neun_py.HHDoubleParameter.gna, 120 * 7.854e-3)
+    neuron.set_param(neun_py.HHDoubleParameter.gk, 36 * 7.854e-3)
+    neuron.set_param(neun_py.HHDoubleParameter.gl, 0.3 * 7.854e-3)
+    
+    # Set initial conditions
+    neuron.set_var(neun_py.HHDoubleVariable.v, -80.0)
+    neuron.set_var(neun_py.HHDoubleVariable.m, 0.1)
+    neuron.set_var(neun_py.HHDoubleVariable.n, 0.7)
+    neuron.set_var(neun_py.HHDoubleVariable.h, 0.01)
+    
+    return neuron
+
+def run_simulation(neuron, I_ext, dt, T):
+    """Run simulation and return time and voltage arrays."""
+    time = np.arange(0, T, dt)
+    V = []
+    
+    for t in time:
+        neuron.add_synaptic_input(I_ext)
+        neuron.step(dt)
+        V.append(neuron.get(neun_py.HHDoubleVariable.v))
+    
+    return time, V
+
+# Use it
+neuron = create_hh_neuron()
+time, V = run_simulation(neuron, I_ext=0.1, dt=0.001, T=100)
+```
+
+### 2. Document Parameters
+
+```python
+# Always document what parameters mean and their units
+HH_PARAMS = {
+    'cm': 1.0 * 7.854e-3,      # Membrane capacitance (μF/cm²)
+    'vna': 50.0,               # Na reversal potential (mV)
+    'vk': -77.0,               # K reversal potential (mV)
+    'vl': -54.387,             # Leak reversal potential (mV)
+    'gna': 120 * 7.854e-3,     # Na conductance (mS/cm²)
+    'gk': 36 * 7.854e-3,       # K conductance (mS/cm²)
+    'gl': 0.3 * 7.854e-3       # Leak conductance (mS/cm²)
+}
+
+def set_hh_params(neuron, params):
+    """Set HH neuron parameters from a dictionary."""
+    neuron.set_param(neun_py.HHDoubleParameter.cm, params['cm'])
+    neuron.set_param(neun_py.HHDoubleParameter.vna, params['vna'])
+    neuron.set_param(neun_py.HHDoubleParameter.vk, params['vk'])
+    neuron.set_param(neun_py.HHDoubleParameter.vl, params['vl'])
+    neuron.set_param(neun_py.HHDoubleParameter.gna, params['gna'])
+    neuron.set_param(neun_py.HHDoubleParameter.gk, params['gk'])
+    neuron.set_param(neun_py.HHDoubleParameter.gl, params['gl'])
+```
+
+### 3. Use Meaningful Variable Names
+
+```python
+# Good
+membrane_voltage = neuron.get(neun_py.HHDoubleVariable.v)
+sodium_activation = neuron.get(neun_py.HHDoubleVariable.m)
+
+# Avoid
+v = neuron.get(neun_py.HHDoubleVariable.v)
+m = neuron.get(neun_py.HHDoubleVariable.m)
+```
+
+### 4. Save Important Results
+
+```python
+import json
+
+# Save results for later analysis
+results = {
+    'model': 'HHDoubleRK4',
+    'parameters': HH_PARAMS,
+    'simulation': {
+        'dt': dt,
+        'T': T,
+        'external_current': 0.1
+    },
+    'voltage_trace': V,  # List is JSON serializable
+    'time': time.tolist()  # Convert numpy array to list
+}
+
+with open('hh_simulation_results.json', 'w') as f:
+    json.dump(results, f, indent=2)
+```

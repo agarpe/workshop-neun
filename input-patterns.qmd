@@ -1,0 +1,78 @@
+## Input Patterns
+
+Neun supports various input patterns through `add_synaptic_input()`.
+
+### Constant Current
+
+```python
+# Applied at each time step
+for t in time:
+    neuron.add_synaptic_input(2.0)  # Constant 2.0 nA
+    neuron.step(dt)
+```
+
+### Time-Varying Current
+
+```python
+# Step current
+for i, t in enumerate(time):
+    if 50 <= t < 150:  # Step from 50 to 150 ms
+        neuron.add_synaptic_input(3.0)
+    else:
+        neuron.add_synaptic_input(0.0)
+    neuron.step(dt)
+```
+
+### Ramp Current
+
+```python
+# Linearly increasing current
+I_max = 5.0
+for i, t in enumerate(time):
+    I_current = (I_max * t) / time[-1]
+    neuron.add_synaptic_input(I_current)
+    neuron.step(dt)
+```
+
+### Noisy Current
+
+```python
+# Gaussian white noise
+I_base = 1.0
+sigma = 0.5
+for t in time:
+    I_noisy = I_base + sigma * np.random.randn()
+    neuron.add_synaptic_input(I_noisy)
+    neuron.step(dt)
+```
+
+### Sinusoidal Current
+
+```python
+# Oscillatory input
+frequency = 10  # Hz
+I_amplitude = 1.0
+I_offset = 1.5
+for t in time:
+    I_sin = I_offset + I_amplitude * np.sin(2 * np.pi * frequency * t / 1000)
+    neuron.add_synaptic_input(I_sin)
+    neuron.step(dt)
+```
+
+### Pulse Train
+
+```python
+# Brief current pulses
+pulse_times = [50, 100, 150, 200]  # ms
+pulse_duration = 5  # ms
+pulse_amplitude = 3.0  # nA
+
+for t in time:
+    I_pulse = 0.0
+    for t_pulse in pulse_times:
+        if t_pulse <= t < t_pulse + pulse_duration:
+            I_pulse = pulse_amplitude
+            break
+    neuron.add_synaptic_input(I_pulse)
+    neuron.step(dt)
+```

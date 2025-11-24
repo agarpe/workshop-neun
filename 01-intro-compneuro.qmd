@@ -10,40 +10,31 @@ format:
 
 ## Why Computational Neuroscience?
 
-The brain is one of the most complex systems in nature. Understanding how neurons communicate, process information, and generate behavior requires tools that can bridge multiple scales—from molecular mechanisms to network dynamics to cognitive functions.
+The brain is one of the most complex systems in nature. Understanding how neurons communicate, process information, and generate behavior requires tools that can bridge multiple scales—from molecular mechanisms to network dynamics and cognitive functions.
 
 ### The Challenge of Complexity
 
 Consider these facts:
 
-- The human brain contains approximately **86 billion neurons**
 - Each neuron can connect to thousands of other neurons
-- Neural signals operate on timescales from **milliseconds to hours**
+- Neural signals **process information** in multiple ways (rate-coding, temporal coding...) and on timescales from **milliseconds to hours**
 - Brain functions emerge from the collective activity of neural populations
 
-**Question**: How can we understand such a complex system?
-
-**Answer**: Through computational models that help us:
+Computational models help us:
 
 1. **Formalize hypotheses** about neural function
-2. **Predict** neural behavior under different conditions
-3. **Test theories** that would be difficult or impossible to test experimentally
+2. **Predict** neural behavior under stimulation or different conditions
+3. **Check theories** that would be difficult or impossible to test experimentally
 4. **Integrate** findings across different scales and modalities
 
-### The Role of Mathematical Modeling
+<!-- @TODO: Figure? -->
+That enables a cycle of: **Experimental measurement -> Model building -> Simulation -> Prediction -> Experimental validation**.
 
-Computational approaches allow us to:
+<!-- ::: {.callout-note}
+## Highlight
 
-- Analyze frequency-dependent responses in neural circuits
-- Understand how different brain regions (e.g., neocortex vs. olfactory bulb) process information differently
-- Decompose complex signals into interpretable components
-- Connect microscopic neural properties to macroscopic measurements
-
-::: {.callout-note}
-## Key Insight from Research
-
-The frequency-dependent response of neural circuits is not uniform across brain regions. The neocortex and olfactory bulb show distinct filtering properties, which can be understood through mathematical modeling of their underlying circuit architecture.
-:::
+Use this to highlight something
+::: -->
 
 ## Levels of Neural Modeling
 
@@ -73,56 +64,56 @@ Capture population dynamics efficiently.
 ### 4. Abstract Models
 **Detail**: Minimal (information processing)  
 **Scale**: System-level  
-**Examples**: Artificial neural networks, decision-making models
+**Examples**: Artificial neural networks, cognitive decision-making models
 
-Focus on computational function rather than biological detail.
+Focus on function rather than biological detail.
 
 ::: {.callout-tip}
 ## Choosing the Right Level
 
 The appropriate level of modeling depends on your question:
 
-- Studying ion channel mutations? → Biophysical model
-- Understanding network oscillations? → Simplified neuron model
+- Studying ion channel responses? → Biophysical model
+- Understanding network interactions? → Simplified neuron model
 - Modeling sensory processing across large populations? → Rate model
 - Testing cognitive theories? → Abstract model
 :::
 
-## Single Neuron Dynamics
+## Neuron Dynamics
+
+Neurons encode information by using electrical signals. Their membrane potential changes in response to internal states and external stimuli. As a result, neurons produce action potentials (spikes).
+
+![Action Potential Propagation](https://upload.wikimedia.org/wikipedia/commons/7/7d/Neuron_action_potential.webm){width=80%}
+
+*Video showing action potential propagation through a neuron. Source: Wikimedia Commons*
 
 ### The Neuron as an Electrical Circuit
 
-A neuron can be conceptualized as an electrical circuit with:
-
+A neuron can be modelled as an electrical circuit with:
 - **Capacitance** (C): Cell membrane stores charge
 - **Resistance** (R): Ion channels control current flow
 - **Current sources** (I): Synaptic inputs and intrinsic currents
 
-### The Leaky Integrate-and-Fire Model
+<!-- @TODO: Add here image? -->
 
-One of the simplest yet most useful models is the Leaky Integrate-and-Fire (LIF) neuron:
+### Information coding in Neurons
 
-$$
-C_m \frac{dV}{dt} = -g_L(V - E_L) + I(t)
-$$
+Actions potentials are the primary means of neural communication. Neurons can encode information using a spiking signal in several ways:
+- **Shape of the action potentials (spikes)**: conveys information about the state of a neuron
+- **Firing rate**: Average number of spikes per unit time
+- **Temporal coding**: Precise timing of action potentials
 
-Where:
+<!-- @TODO: Add here a section about a certain model? -->
 
-- $V$ = membrane potential
-- $C_m$ = membrane capacitance
-- $g_L$ = leak conductance
-- $E_L$ = leak reversal potential (resting potential)
-- $I(t)$ = input current
+But neurons do not operate in isolation.
 
-When $V$ reaches threshold $V_{th}$, the neuron fires a spike and resets to $V_{reset}$.
+## From Neurons to Networks: Sinapses
 
-## From Neurons to Networks
+### Why networks natter
 
-### Why Networks Matter
+Individual neurons are limited in their computational capabilities. Complex nervous functions emerge from **networks** of interconnected neurons.
 
-Individual neurons are limited in their computational capabilities. Complex brain functions emerge from **networks** of interconnected neurons.
-
-### Synaptic Connections
+### Synaptic connections
 
 Neurons communicate through synapses:
 
@@ -136,9 +127,10 @@ The strength and dynamics of synaptic connections determine network behavior.
 Different connection patterns lead to different dynamics:
 
 1. **Feedforward networks**: Information flows in one direction
-2. **Recurrent networks**: Neurons connect back to each other
-3. **Random networks**: Connections made with some probability
-4. **Structured networks**: Specific patterns (e.g., columnar organization)
+2. **Recurrent networks**: Neurons connect back to each other like Central Pattern Generators (CPGs)
+3. **Structured networks**: Specific patterns (e.g., columnar organization)
+
+Recurrent connections can produce robust and variable rhythmic dynamics.
 
 ### Population Dynamics
 
