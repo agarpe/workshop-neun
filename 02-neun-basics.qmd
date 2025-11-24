@@ -226,6 +226,10 @@ The classic biophysical neuron model with sodium and potassium conductances:
 - Higher firing rate
 - Different spiking patterns
 
+#### 💻 Hands-on: 
+Try different values of currents... Can you find the model's limit? 
+Do you think a living neuron would have a similar limit?
+
 ### Hindmarsh-Rose (HR)
 
 A reduced model that can produce bursting and chaotic behavior:
