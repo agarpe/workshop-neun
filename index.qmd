@@ -99,11 +99,11 @@ git clone https://github.com/GNB-UAM/neun_py.git
 cd neun_py
 
 # Create a virtual environment (recommended)
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python -m venv neun-venv
+source neun-venv/bin/activate  # On Windows: neun-venv\Scripts\activate
 
 # Install neun_py
-pip install neun_py
+make
 ```
 
 ### Testing Your Setup
