@@ -133,7 +133,7 @@ Navigate through the workshop using the menu above:
 ## Additional Resources
 
 - [Neun GitHub Repository](https://github.com/GNB-UAM/Neun/)
-- [Neun Documentation](https://github.com/GNB-UAM/Neun/)
+- [Neun Python Bindings Documentation](https://gnb-uam.github.io/neun_py/getting-started/quickstart/)
 
 
 ---
