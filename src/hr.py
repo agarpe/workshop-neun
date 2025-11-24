@@ -20,11 +20,11 @@ for idx, params in enumerate(parameter_sets):
     args = neun_py.HRDoubleConstructorArgs()
     neuron = neun_py.HRDoubleRK4(args)
     
-    # # HR model uses default parameters, but we can modify them if needed
-    # # Set initial conditions
-    # neuron.set_var(neun_py.HRDoubleVariable.x, -1.0)
-    # neuron.set_var(neun_py.HRDoubleVariable.y, -5.0)
-    # neuron.set_var(neun_py.HRDoubleVariable.z, 0.0)
+    # HR model uses default parameters, but we can modify them if needed
+    # Set initial conditions
+    neuron.set(neun_py.HRDoubleVariable.x, -1.0)
+    neuron.set(neun_py.HRDoubleVariable.y, -5.0)
+    neuron.set(neun_py.HRDoubleVariable.z, 0.0)
     
     # Simulate with different input currents
     V = []

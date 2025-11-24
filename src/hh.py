@@ -27,11 +27,11 @@ for idx, (I_ext, color) in enumerate(zip(currents, colors)):
     neuron.set_param(neun_py.HHDoubleParameter.gk, 36 * 7.854e-3)
     neuron.set_param(neun_py.HHDoubleParameter.gl, 0.3 * 7.854e-3)
     
-    # # Set initial conditions
-    # neuron.set_var(neun_py.HHDoubleVariable.v, -80.0)
-    # neuron.set_var(neun_py.HHDoubleVariable.m, 0.1)
-    # neuron.set_var(neun_py.HHDoubleVariable.n, 0.7)
-    # neuron.set_var(neun_py.HHDoubleVariable.h, 0.01)
+    # Set initial conditions
+    neuron.set(neun_py.HHDoubleVariable.v, -80.0)
+    neuron.set(neun_py.HHDoubleVariable.m, 0.1)
+    neuron.set(neun_py.HHDoubleVariable.n, 0.7)
+    neuron.set(neun_py.HHDoubleVariable.h, 0.01)
 
     # Simulate
     V = []
