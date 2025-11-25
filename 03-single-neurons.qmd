@@ -14,6 +14,7 @@ In this section, we'll explore single neuron models in depth, understanding thei
 
 ## Exploring Neuron Models
 
+::: {.panel-tabset}
 ### Hodgkin-Huxley (HH)
 
 The classic biophysical neuron model with sodium and potassium conductances:
@@ -43,7 +44,7 @@ A reduced model that can produce bursting and chaotic behavior:
 
 <!-- @TODO change this by Explanation of what is chaotic ? -->
 
-### The Izhikevich Model
+### Izhikevich (Iz)
 
 The Izhikevich model can reproduce many different firing patterns with just 4 parameters:
 
@@ -75,6 +76,7 @@ Different combinations produce different firing patterns!
 ```{.python filename="src/izhikevich.py"}
 {{< include src/izhikevich.py >}}
 ```
+:::
 
 ::: {.callout-important}
 ## Choosing a Neuron Model
