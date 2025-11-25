@@ -1,5 +1,5 @@
 ---
-title: "2.3: Building Neural Networks"
+title: "2.3: Synapses and Neural Networks"
 subtitle: "From Single Neurons to Connected Populations"
 format:
   html:

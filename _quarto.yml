@@ -15,11 +15,11 @@ website:
       - section: "Part 2: Simulations with Neun"
         contents:
         - text: "Intro to Neun"
-          file: 02-neun-basics.qmd
+          file: 02-01-neun-basics.qmd
         - text: "Neurons"
-          file: 03-single-neurons.qmd
+          file: 02-02-single-neurons.qmd
         - text: "Synapsis & Networks"
-          file: 04-neural-networks.qmd
+          file: 02-03-neural-networks.qmd
       - text: "Part 3: Analysis and Visualization"
         file: 04-neural-networks.qmd
       - text: "Part 4: Conclusions"
