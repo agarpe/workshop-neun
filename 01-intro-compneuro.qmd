@@ -169,10 +169,12 @@ Computational models help interpret experimental findings:
 :::
 
 ## Analysis of Sequential Activations
+<!-- @TODO complete -->
 
 ## Connecting to Experimental Data
 
 Computational models become most powerful when integrated with experimental measurements.
+<!-- @TODO complete -->
 
 ## Summary
 
