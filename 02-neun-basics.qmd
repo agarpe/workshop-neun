@@ -211,97 +211,6 @@ The basic Neun workflow consists of:
 7. **Read state** using `neuron.get(variable_enum)`
 :::
 
-## Exploring Neuron Models
-
-### Hodgkin-Huxley (HH)
-
-The classic biophysical neuron model with sodium and potassium conductances:
-
-![Hodgkin-Huxley formalism equations](./images/HH-equations.png){width=80%}
-
-```{.python filename="src/hh.py"}
-{{< include src/hh.py >}}
-```
-
-**Observation**: Higher external current leads to:
-- More frequent action potentials
-- Higher firing rate
-- Different spiking patterns
-
-#### 💻 Hands-on: 
-Try different values of currents... Can you find the model's limit? 
-Do you think a living neuron would have a similar limit?
-
-### Hindmarsh-Rose (HR)
-
-A reduced model that can produce bursting and chaotic behavior:
-
-```{.python filename="src/hr.py"}
-{{< include src/hr.py >}}
-```
-
-<!-- @TODO change this by Explanation of what is chaotic ? -->
-::: {.callout-important}
-## Choosing a Neuron Model
-
-- **HH (Hodgkin-Huxley)**: Biophysically detailed, captures ion channel dynamics
-- **HR (Hindmarsh-Rose)**: Bursting and chaotic behavior, moderate complexity
-- **Izhikevich**: Various firing patterns with simple equations
-
-**Integrator Selection**:
-
-- **RK4**: Best balance of accuracy and speed (recommended)
-- **RK6**: Higher accuracy for sensitive systems
-- **Euler**: Fast but less accurate
-
-**Precision**: Use `Double` for most cases, `Float` for large-scale simulations
-:::
-
-## Input Patterns
-
-Neun supports [various input patterns](input-patterns.qmd) through `add_synaptic_input()`.
-
-## Visualizing variables in the model
-
-So far we have plot the voltage at each instant, but in the model we have access to all the parameters
-that conform the model. Try out this example of Hodgkin-Huxley model showing several variables:
-
-```{.python filename="src/hh-parameters.py"}
-{{< include src/hh-parameters.py >}}
-```
-
-## Parameter Exploration
-
-A key use of simulations is exploring parameter space which can be easily done in a model but can be quite of a challenge experimentally.
-
-::: {.callout-tip}
-## Parameter Exploration Tips
-
-1. **Start with wide ranges** to understand overall behavior
-2. **Refine** around interesting regions
-3. **Vary one parameter at a time** initially
-4. **Use multiple metrics** (firing rate, CV of ISI, etc.)
-5. **Compare with experimental data** when available
-:::
-
-```{.python filename="src/parameter-exploration.py"}
-{{< include src/parameter-exploration.py >}}
-```
-
-When designing a model is frequent the need of analyzing a wide range of values 
-(and combinations of values), that task can be automatized by defining a range of exploration values
-for different parameters, as you have in the following example:
-
-```{.python filename="src/parameter-exploration.py"}
-{{< include src/parameter-exploration-batch.py >}}
-```
-
-Sometimes it is also usefull to run a same model several times, varying 
-some parameters in the simulation, e.g., including a noisy input at different seeds. 
-You can design a loop for that purpose and analyze it directly on Python.
-You have an examples of batching in ```src/hh-multiple-trials.py``` and ```src/parameter-exploration-batch.py```
-
-
 ## Summary
 
 In this section, we've learned:
@@ -324,16 +233,6 @@ In this section, we've learned:
 5. **Organization**: Write helper functions for creating and configuring neurons
 :::
 
-## Exercises
-
-Try these exercises to solidify your understanding:
-
-1. **Parameter Sweep**: Create a 2D parameter sweep varying both `gna` and `gk` in the HH model
-2. **Integrator Comparison**: Compare RK4 vs RK6 integrators for the same HH neuron
-3. **Phase Plane**: Plot the (V, n) phase plane for the HH model
-4. **Coupling Strength**: Explore how synapse conductance affects synchronization between two HR neurons
-5. **Noise Effects**: Compare firing patterns with different noise levels in the input current
-
 ## Next Steps
 
 Now that you're familiar with Neun basics, we'll move on to:
@@ -344,4 +243,4 @@ Now that you're familiar with Neun basics, we'll move on to:
 
 ---
 
-**Continue to [Part 3: Single Neuron Modeling](03-single-neurons.qmd)**
+**Continue to [2.2: Modeling Neurons](03-single-neurons.qmd)**
