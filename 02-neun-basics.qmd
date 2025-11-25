@@ -213,6 +213,7 @@ The basic Neun workflow consists of:
 
 ## Exploring Neuron Models
 
+::: {.panel-tabset}
 ### Hodgkin-Huxley (HH)
 
 The classic biophysical neuron model with sodium and potassium conductances:
@@ -275,6 +276,7 @@ plt.show()
 - More frequent action potentials
 - Higher firing rate
 - Different spiking patterns
+</details>
 
 ### Hindmarsh-Rose (HR)
 
@@ -328,6 +330,7 @@ plt.suptitle('Hindmarsh-Rose Neuron: Different Firing Patterns', fontsize=14)
 plt.tight_layout()
 plt.show()
 ```
+:::
 
 ::: {.callout-important}
 ## Choosing a Neuron Model
