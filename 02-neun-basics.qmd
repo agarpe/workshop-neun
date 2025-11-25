@@ -1,5 +1,5 @@
 ---
-title: "Part 2: Getting Started with Neun"
+title: "2.1 Getting Started with Neun"
 subtitle: "Introduction to the Neun Library"
 format:
   html:

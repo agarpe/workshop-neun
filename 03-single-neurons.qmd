@@ -1,5 +1,5 @@
 ---
-title: "Part 3: Modeling Neurons"
+title: "2.2: Modeling Neurons"
 subtitle: "Deep Dive into Neuron Models with Neun"
 format:
   html:
