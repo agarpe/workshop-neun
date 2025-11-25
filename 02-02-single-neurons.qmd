@@ -246,9 +246,8 @@ The CV quantifies spike time variability:
 
 Try these exercises to solidify your understanding:
 
-1. **Parameter Sweep**: Create a 2D parameter sweep varying both `gna` and `gk` in the HH model
-2. **Integrator Comparison**: Compare RK4 vs RK6 integrators for the same HH neuron
-3. **Phase Plane**: Plot the (V, n) phase plane for the HH model
-4. **Coupling Strength**: Explore how synapse conductance affects synchronization between two HR neurons
-5. **Noise Effects**: Compare firing patterns with different noise levels in the input current
+1. **Parameter sweep**: Create a 2D parameter sweep varying both `gna` and `gk` in the HH model
+2. **Integrator comparison**: Compare RK4 vs RK6 integrators for the same HH neuron
+3. **Phase plane**: Plot the (V, n) phase plane for the HH model
+4. **Noise effects**: Compare firing patterns with different noise levels in the input current
 
