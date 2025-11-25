@@ -91,11 +91,17 @@ Neurons encode information by using electrical signals. Their membrane potential
 
 A neuron can be modelled as an electrical circuit with:
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cable_theory_Neuron_RC_circuit_v2.svg/576px-Cable_theory_Neuron_RC_circuit_v2.svg.png?20170623201344)
-
-- **Capacitance** (C): Cell membrane stores charge
-- **Resistance** (R): Ion channels control current flow
+::: {.grid style="align-items: center;" .center}
+::: {.g-col-3}
+- **Capacitance** (C): Cell membrane stores charge  
+- **Resistance** (R): Ion channels control current flow  
 - **Current sources** (I): Synaptic inputs and intrinsic currents
+:::
+::: {.g-col-6}
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Cable_theory_Neuron_RC_circuit_v2.svg/576px-Cable_theory_Neuron_RC_circuit_v2.svg.png?20170623201344){width=100%}
+:::
+:::
+
 
 ### Information coding in Neurons
 
