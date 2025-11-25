@@ -116,7 +116,7 @@ But neurons do not operate in isolation.
 
 ## From Neurons to Networks: Sinapses
 
-### Why networks natter
+### Why networks matter
 
 Individual neurons are limited in their computational capabilities. Complex nervous functions emerge from **networks** of interconnected neurons.
 
