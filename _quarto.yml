@@ -18,12 +18,10 @@ website:
           file: 02-01-neun-basics.qmd
         - text: "Neurons"
           file: 02-02-single-neurons.qmd
-        - text: "Synapsis & Networks"
+        - text: "Synapses & Networks"
           file: 02-03-neural-networks.qmd
-      - text: "Part 3: Analysis and Visualization"
-        file: 04-neural-networks.qmd
-      - text: "Part 4: Conclusions"
-        file: 05-conclusions.qmd
+      - text: "Part 3: Conclusions"
+        file: 03-conclusions.qmd
       - text: "---"
       - text: "Neun GitHub"
         icon: github
