@@ -31,8 +31,8 @@ h2.set(neun_py.HHDoubleVariable.v, -65)
 synapse = neun_py.ESynHHHHDoubleRK4(
     h1, neun_py.HHDoubleVariable.v,
     h2, neun_py.HHDoubleVariable.v,
-    -0.002,  # Conductance from h1 to h2
-    -0.002   # Conductance from h2 to h1
+    0.002,  # Conductance from h1 to h2
+    0.002  # Conductance from h2 to h1
 )
 
 # Simulation parameters
