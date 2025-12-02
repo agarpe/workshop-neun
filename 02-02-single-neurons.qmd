@@ -42,6 +42,14 @@ Can you find the **model's limit**? Do you think a living neuron would have a si
 
 A reduced model that can produce bursting and chaotic behavior:
 
+\begin{cases}
+\dot x = y - a x^{3} + b x^{2} + I - z \\
+\dot y = c - d x^{2} - y \\
+\dot z = r\big(s(x - x_R) - z\big)
+\end{cases}
+
+
+
 ```{.python filename="src/hr.py"}
 {{< include src/hr.py >}}
 ```
