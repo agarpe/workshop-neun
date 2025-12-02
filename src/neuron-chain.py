@@ -43,7 +43,7 @@ for i in range(len(neurons) - 1):
     synapse = neun_py.ESynHHHHDoubleRK4(
         neurons[i], neun_py.HHDoubleVariable.v,
         neurons[i+1], neun_py.HHDoubleVariable.v,
-        -0.002, -0.002  # Bidirectional coupling
+        0.002, 0.002  # Bidirectional coupling
     )
     synapses.append(synapse)
 
