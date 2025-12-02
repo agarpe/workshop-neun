@@ -48,12 +48,17 @@ This creates:
 :::{.callout-tip}
 #### Hands-on
 
-Try modifying the coupling conductance... 💻
+Try modifying the coupling conductance... Are you able to change the synchronization level? 💻
 
-- Change `-0.002` to `-0.001` (weaker coupling)
-- Change to `-0.005` (stronger coupling)
 
-What happens to the synchronization between neurons?
+<details>
+<summary>Solution</summary>
+- Change `0.002` to `0.001` (weaker coupling)
+- Change to `0.003` (stronger coupling)
+
+You can tell the strength of the coupling from the distance between peaks.
+
+</details>
 :::
 
 
