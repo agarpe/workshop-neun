@@ -60,10 +60,11 @@ sudo make install
 git clone https://github.com/GNB-UAM/neun_py.git
 cd neun_py
 make  # Generates code and installs in editable mode
-
+```
+<!---
 # Or install with optional dependencies for examples
 pip install neun_py[examples]  # Includes matplotlib and numpy
-```
+--->
 Let's check that everything (both the C++ library and the Python bindings) is installed correctly.
 
 ### Verifying Installation of the Neun C++ library
