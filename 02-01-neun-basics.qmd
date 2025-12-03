@@ -226,9 +226,10 @@ The basic Neun workflow consists of:
 
 Now that you're familiar with Neun basics, we'll move on to:
 
-- Simulating synaptic dynamics
-- Creating connected networks
-- Analyzing network behavior
+- Simulating different neural models
+- Visualizing your simulations 
+- Tuning parameters
+- Analyzing neural behavior
 
 ---
 
