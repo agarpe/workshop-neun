@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+import neun_py
+
 # Dictionary of Izhikevich parameters for different cell types
 neuron_types = {
     'Regular Spiking (RS)': {
@@ -9,28 +12,35 @@ neuron_types = {
 
 # Simulate and plot
 dt = 0.1
-T = 200
+T = 1000
 n_steps = int(T / dt)
 
 fig, axes = plt.subplots(3, 2, figsize=(14, 10))
 axes = axes.flatten()
 
 for idx, (name, params) in enumerate(neuron_types.items()):
-    # Create Izhikevich neuron with specific parameters
-    neuron = neun.models.Izhikevich(
-        a=params['a'], 
-        b=params['b'], 
-        c=params['c'], 
-        d=params['d']
-    )
+    # Create Izhikevich neuron
+    args = neun_py.IzDoubleConstructorArgs()
+    neuron = neun_py.IzDoubleRK4(args)
+
+    # Set parameters
+    neuron.set_param(neun_py.IzDoubleParameter.a, params['a'])
+    neuron.set_param(neun_py.IzDoubleParameter.b, params['b'])
+    neuron.set_param(neun_py.IzDoubleParameter.c, params['c'])
+    neuron.set_param(neun_py.IzDoubleParameter.d, params['d'])
+
+    # Set initial conditions (you can change them if you want)
+    neuron.set(neun_py.IzDoubleVariable.v, -65.0)
+    neuron.set(neun_py.IzDoubleVariable.u, params['b'] * -65.0)
     
     V_trace = []
     t_trace = []
     
     for step in range(n_steps):
         t = step * dt
-        neuron.step(dt, params['I_amp'])
-        V_trace.append(neuron.V)
+        neuron.add_synaptic_input(params['I_amp'])
+        neuron.step(dt)
+        V_trace.append(neuron.get(neun_py.IzDoubleVariable.v))
         t_trace.append(t)
     
     axes[idx].plot(t_trace, V_trace, color=params['color'], linewidth=1.5)

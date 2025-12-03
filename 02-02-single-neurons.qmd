@@ -42,6 +42,14 @@ Can you find the **model's limit**? Do you think a living neuron would have a si
 
 A reduced model that can produce bursting and chaotic behavior:
 
+\begin{cases}
+\dot x = y - a x^{3} + b x^{2} + I - z \\
+\dot y = c - d x^{2} - y \\
+\dot z = r\big(s(x - x_R) - z\big)
+\end{cases}
+
+
+
 ```{.python filename="src/hr.py"}
 {{< include src/hr.py >}}
 ```
@@ -251,3 +259,5 @@ Try these exercises to solidify your understanding:
 3. **Phase plane**: Plot the (V, n) phase plane for the HH model
 4. **Noise effects**: Compare firing patterns with different noise levels in the input current
 
+
+**Continue to [2.3: Modeling Neural Networks](02-03-neural-networks.qmd)**

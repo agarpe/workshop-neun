@@ -1,98 +1,136 @@
+import neun_py
 import numpy as np
 import matplotlib.pyplot as plt
-import neun_py as neun
 
-# Regular bursting HR parameters (typical bursting)
-hr_regular = neun.models.HindmarshRose(
-    a=1.0, b=3.0, c=1.0, d=5.0,
-    r=0.005,  # faster slow current -> regular bursting
-    s=4.0, x_rest=-1.6
-)
+# -----------------------------
+# Simulation parameters
+# -----------------------------
+dt = 0.01
+T = 5000
+time = np.arange(0, T, dt)
+n_steps = len(time)
 
-# Chaotic HR parameters (deterministic chaos)
-hr_chaotic = neun.models.HindmarshRose(
-    a=1.0, b=3.0, c=1.0, d=5.0,
-    r=0.001,  # slower slow current -> chaotic regime
-    s=4.0, x_rest=-1.6
-)
+# Base currents
+I_regular = 2.5      # Regular HR
+I_chaotic = 3.2       # Chaotic HR
 
-dt = 0.1
-T = 1000
-n_steps = int(T / dt)
+# -----------------------------
+# HR neuron helpers
+# -----------------------------
+def configure_hr(neuron):
+    P = neun_py.HRDoubleParameter
+    neuron.set_param(P.e, 0)
+    neuron.set_param(P.mu, 0.006)
+    neuron.set_param(P.S, 4)
+    neuron.set_param(P.a, 1)
+    neuron.set_param(P.b, 3)
+    neuron.set_param(P.c, 1)
+    neuron.set_param(P.d, 5)
+    neuron.set_param(P.xr, -1.6)
+    neuron.set_param(P.vh, 1)
 
-I_reg = 3.0
-I_chaos = 3.2
+def set_initial_conditions(neuron):
+    V = neun_py.HRDoubleVariable
+    neuron.set(V.x, -0.712841)
+    neuron.set(V.y, -1.93688)
+    neuron.set(V.z, 3.16568)
 
-def simulate_hr(neuron, I_input, dt, T):
-    n_steps = int(T / dt)
-    V, y, z, t = [], [], [], []
-    neuron.reset()
-    for step in range(n_steps):
-        t_curr = step * dt
-        neuron.step(dt, I_input)
-        V.append(neuron.V)
-        y.append(neuron.y)
-        z.append(neuron.z)
-        t.append(t_curr)
-    return np.array(t), np.array(V), np.array(y), np.array(z)
+def simulate_hr(I_array):
+    """Simulate HR neuron with a given input array"""
+    neuron = neun_py.HRDoubleRK4(neun_py.HRDoubleConstructorArgs())
+    configure_hr(neuron)
+    set_initial_conditions(neuron)
 
-# Simulations
-t_reg, V_reg, y_reg, z_reg = simulate_hr(hr_regular, I_reg, dt, T)
-t_cha, V_cha, y_cha, z_cha = simulate_hr(hr_chaotic, I_chaos, dt, T)
+    V_trace, y_trace, z_trace = [], [], []
+    for I_t in I_array:
+        neuron.add_synaptic_input(I_t)
+        neuron.step(dt)
+        V_trace.append(neuron.get(neun_py.HRDoubleVariable.x))
+        y_trace.append(neuron.get(neun_py.HRDoubleVariable.y))
+        z_trace.append(neuron.get(neun_py.HRDoubleVariable.z))
 
-# Plot time series comparison
-fig, axes = plt.subplots(2, 1, figsize=(12, 8), sharex=True)
-axes[0].plot(t_reg, V_reg, linewidth=0.9, color='steelblue')
-axes[0].set_title('Hindmarsh-Rose: Regular Bursting', fontsize=14, fontweight='bold')
-axes[0].set_ylabel('Membrane Potential (x)')
+    return np.array(V_trace), np.array(y_trace), np.array(z_trace)
+
+# -----------------------------
+# Generate input currents
+# -----------------------------
+np.random.seed(42)
+I_regular_clean = np.ones(n_steps) * I_regular
+I_chaotic_array = np.ones(n_steps) * I_chaotic
+
+# -----------------------------
+# Run simulations
+# -----------------------------
+V_clean, y_clean, z_clean = simulate_hr(I_regular_clean)
+V_chaotic, y_chaotic, z_chaotic = simulate_hr(I_chaotic_array)
+
+# -----------------------------
+# Plot membrane potentials
+# -----------------------------
+fig, axes = plt.subplots(2, 1, figsize=(12, 10), sharex=True)
+
+axes[0].plot(time, V_clean, color='steelblue', linewidth=1)
+axes[0].set_title("HR Regular — Clean Input")
+axes[0].set_ylabel("Membrane Potential (x)")
 axes[0].grid(True, alpha=0.3)
 
-axes[1].plot(t_cha, V_cha, linewidth=0.9, color='darkred')
-axes[1].set_title('Hindmarsh-Rose: Chaotic Regime', fontsize=14, fontweight='bold')
-axes[1].set_xlabel('Time (ms)')
-axes[1].set_ylabel('Membrane Potential (x)')
+axes[1].plot(time, V_chaotic, color='darkred', linewidth=1)
+axes[1].set_title("HR Chaotic")
+axes[1].set_xlabel("Time (ms)")
+axes[1].set_ylabel("Membrane Potential (x)")
 axes[1].grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
 
-# Phase space comparison (x-y)
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
-ax1.plot(V_reg, y_reg, linewidth=0.6, color='steelblue')
-ax1.set_title('Regular Bursting: Phase Space (x-y)')
-ax1.set_xlabel('x')
-ax1.set_ylabel('y')
-ax1.grid(True, alpha=0.3)
+# -----------------------------
+# Phase plane comparisons (x-y)
+# -----------------------------
+fig, axes = plt.subplots(1, 2, figsize=(18, 5))
+axes[0].plot(V_clean, y_clean, color='steelblue', linewidth=0.7)
+axes[0].set_title("Regular Clean: Phase Space (x-y)")
+axes[0].set_xlabel("x"); axes[0].set_ylabel("y"); axes[0].grid(True, alpha=0.3)
 
-ax2.plot(V_cha, y_cha, linewidth=0.6, color='darkred')
-ax2.set_title('Chaotic Regime: Phase Space (x-y)')
-ax2.set_xlabel('x')
-ax2.set_ylabel('y')
-ax2.grid(True, alpha=0.3)
+axes[1].plot(V_chaotic, y_chaotic, color='darkred', linewidth=0.7)
+axes[1].set_title("Chaotic: Phase Space (x-y)")
+axes[1].set_xlabel("x"); axes[1].set_ylabel("y"); axes[1].grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
 
-# Optional 3D phase space for chaotic attractor
+# -----------------------------
+# Phase plane comparisons (x-z)
+# -----------------------------
+fig, axes = plt.subplots(1, 2, figsize=(18, 5))
+axes[0].plot(V_clean, z_clean, color='steelblue', linewidth=0.7)
+axes[0].set_title("Regular Clean: Phase Space (x-z)")
+axes[0].set_xlabel("x"); axes[0].set_ylabel("z"); axes[0].grid(True, alpha=0.3)
+
+axes[1].plot(V_chaotic, z_chaotic, color='darkred', linewidth=0.7)
+axes[1].set_title("Chaotic: Phase Space (x-z)")
+axes[1].set_xlabel("x"); axes[1].set_ylabel("z"); axes[1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.show()
+
+# -----------------------------
+# 3D phase space comparison
+# -----------------------------
 try:
     from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
-    fig = plt.figure(figsize=(12, 5))
-    ax = fig.add_subplot(121, projection='3d')
-    ax.plot(V_reg, y_reg, z_reg, linewidth=0.4, alpha=0.8, color='steelblue')
-    ax.set_title('Regular Bursting: 3D Phase Space')
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
-    ax.set_zlabel('z')
+    fig = plt.figure(figsize=(18, 5))
+
+    ax1 = fig.add_subplot(121, projection='3d')
+    ax1.plot(V_clean, y_clean, z_clean, color='steelblue', linewidth=0.5, alpha=0.8)
+    ax1.set_title("Regular Clean 3D Phase Space")
+    ax1.set_xlabel("x"); ax1.set_ylabel("y"); ax1.set_zlabel("z")
 
     ax2 = fig.add_subplot(122, projection='3d')
-    ax2.plot(V_cha, y_cha, z_cha, linewidth=0.4, alpha=0.8, color='darkred')
-    ax2.set_title('Chaotic Regime: 3D Phase Space')
-    ax2.set_xlabel('x')
-    ax2.set_ylabel('y')
-    ax2.set_zlabel('z')
+    ax2.plot(V_chaotic, y_chaotic, z_chaotic, color='darkred', linewidth=0.5, alpha=0.8)
+    ax2.set_title("Chaotic 3D Phase Space")
+    ax2.set_xlabel("x"); ax2.set_ylabel("y"); ax2.set_zlabel("z")
 
     plt.tight_layout()
     plt.show()
-except Exception:
-    # If 3D not available, skip
-    pass
+except ImportError:
+    print("3D plotting not available; skipping 3D phase space.")
