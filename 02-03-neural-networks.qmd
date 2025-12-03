@@ -116,12 +116,12 @@ Neun follows a systematic naming pattern for synapses:
 ## Building Neural Networks
 
 ::: {.panel-tabset}
-### Chain Network
+### Feedforward Network
 
 Let's build a simple feedforward chain where activity propagates from one neuron to the next:
 
-```{.python filename="src/neuron-chain.py"}
-{{< include src/neuron-chain.py >}}
+```{.python filename="src/feedforward.py"}
+{{< include src/feedforward.py >}}
 ```
 
 **Observation**: Notice how the spike travels through the chain with some delay. The coupling strength determines how effectively the signal propagates.
