@@ -138,23 +138,6 @@ Experiment with the chain... 💻
 What's the maximum chain length before signal dies out?
 :::
 
-### All-to-All Network
-
-In many brain regions, neurons are densely interconnected. Let's simulate this:
-
-```{.python filename="src/population-rate.py"}
-{{< include src/population-rate.py >}}
-```
-
-::: {.callout-note}
-## All-to-All Connectivity
-
-With $N$ neurons, an all-to-all network has:
-$$\text{Number of synapses} = \frac{N(N-1)}{2}$$
-
-This scales as $O(N^2)$, so computation grows quickly with network size!
-:::
-
 ## Visualizing Network Activity
 
 Understanding network behavior requires appropriate visualization tools:
@@ -180,23 +163,6 @@ Analyze the raster plot... 💻
 - Can you identify synchronized events?
 - Do you see traveling waves?
 - Try increasing the coupling strength - what changes?
-:::
-
-### Population Firing Rate
-
-The population firing rate captures **collective activity**:
-
-Already shown in the all-to-all network example above! The population firing rate is computed using a sliding window to count spikes across the network.
-
-::: {.callout-note}
-## Computing Firing Rates
-
-Common approaches:
-1. **Spike counting**: Count spikes in time window, divide by window size
-2. **Instantaneous rate**: Inverse of inter-spike interval
-3. **Kernel smoothing**: Convolve spike train with Gaussian
-
-Each has trade-offs between temporal resolution and noise!
 :::
 
 :::
