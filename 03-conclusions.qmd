@@ -8,31 +8,40 @@ format:
     code-fold: show
 ---
 
-Computational neuroscience provides a framework for understanding the brain by combining theoretical, experimental, and computational approaches. By abstracting complex neural systems into models, we can uncover principles that govern brain function, predict behavior, and guide experiments in ways that would be difficult with observation alone.
+Computational neuroscience provides a framework for understanding the brain by combining different approaches: mathematics, computer science, and theoretical analysis  allow us to understand the principles that govern the development, structure, physiology and cognitive abilities of the nervous system.
+
+By abstracting complex neural systems into models, we can uncover principles that govern brain function, predict behavior, and guide experiments in ways that would be difficult with observation alone.
 
 Key insights include:
 
-- **Modeling as a tool for understanding**: Models are not just simulations; they are ways to formalize hypotheses, test ideas, and explore “what-if” scenarios in a controlled setting.  
-- **Levels of abstraction matter**: Different questions require different modeling approaches, from detailed biophysical models to abstract system-level representations. Choosing the right level of detail is essential for balancing insight and computational efficiency.  
+- **Modeling as a tool for understanding**. Models are not just simulations; they are ways to formalize hypotheses, test ideas, and explore “what-if” scenarios in a controlled setting.  
+- **Levels of abstraction matter**: Different questions require different modeling approaches, from detailed biophysical models to abstract system-level representations. Choosing the right level of detail is essential.  
 - **Emergent behavior arises from interactions**: Neural networks exhibit behaviors that are not present in single neurons, highlighting the importance of connectivity, dynamics, and feedback.  
-- **Integration is essential**: Combining computational models with experimental data strengthens predictions, validates theories, and provides deeper understanding than either approach alone.  
-- **Iterative refinement drives progress**: Modeling is a cyclical process: build, simulate, analyze, compare with data, and refine. This iterative loop accelerates learning and discovery in neuroscience.  
-- **Tools empower exploration**: Software frameworks and simulation libraries enable rapid prototyping, reproducibility, and scalability, allowing researchers to focus on the science rather than implementation details.
+- **Combining computational models with experimental data** improve the models, and strengthens predictions.  
+- **Iterative refinement drives progress**: Modeling is a cyclical process: build, simulate, analyze, compare with data, and refine. This iterative loop accelerates learning and discovery in neuroscience.
+- **Tools empower exploration**: Software frameworks and simulation libraries like Neun enable rapid prototyping, reproducibility, and scalability, allowing researchers to focus on the science rather than implementation details.
 
 Ultimately, computational models serve as a bridge between intuition and experiment, allowing us to explore the principles of neural computation, predict outcomes, and uncover mechanisms that underlie cognition and behavior. Embracing these approaches equips researchers with a versatile toolkit for both discovery and innovation in neuroscience.
 
----
-# Neun
-Neun is a open-source tool for modelling and efficient simulation, thanks to its implementation in C++.
-We have seen along the workshop how to implement different models and some of the many different things we can do when simulating neuronal activity. 
 
----
+## Advanced topics
+There are some advanced topics that we have not covered in this workshop, but that you can explore on your own:
 
-# Your turn!
-Now you have Neun in your power, and the knowledge to use it, so use it wisely ;).
-And remember, you can also contribute to the project via pull request and include any model that you want.
+- **Fitting to experimental data**: Use optimization techniques to fit model parameters to real neural recordings.
+- **Large-scale simulations**: Explore how to simulate larger networks efficiently using parallel computing.
+- **Plasticity and learning rules**: Implement synaptic plasticity mechanisms to study how synapses adapt.
 
-Contact us if you have any questions or want to develop something together!
+## Neun
+As you now know, Neun is an open-source tool for modeling and efficient simulation.
+
+We have seen along the workshop how to use Neun to create and simulate neurons and simple neural networks, how to analyze the results, and how to visualize the dynamics.
+
+### Now is your turn! 🫵
+Now you have the power to use Neun, so use it wisely ;)
+
+And remember, **you can also contribute to the project via pull request** (for example, to include any improvement that you may want to use).
+
+Contact us if you have any questions or if you want to develop something together!
 
     angel.lareo@uam.es 
     alicia.garrido@uam.es
