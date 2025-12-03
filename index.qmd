@@ -18,9 +18,9 @@ Welcome to this hands-on workshop on computational neuroscience using the **Neun
 
 **Facilitators**:
 
-* Dr. Ángel Lareo
+* Dr. Ángel Lareo: angel.lareo@uam.es
 
-* Dr. Alicia Garrido-Peña
+* Dr. Alicia Garrido-Peña: alicia.garrido@uam.es
 
 [More info about the facilitators...](facilitators.qmd)
 
