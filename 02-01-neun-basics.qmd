@@ -143,7 +143,7 @@ Individual computational units that integrate inputs and generate outputs. Neun 
 |-------|------------|-------------|
 | **Hodgkin-Huxley** | `HH` | Classic conductance-based model |
 | **Hindmarsh-Rose** | `HR` | Simplified bursting model |
-| **Izhikevich**     |      | Izhikevich spiking neuron model (2003) |
+| **Izhikevich**     | `Iz` | Izhikevich spiking neuron model (2003) |
 | **Matsuoka**       |      | Matsuoka oscillator (1985) |
 | **RowatSelverston**|      | Rowat and Selverston model (1997) |
 | **Rulkov**         |      | Rulkov Map model (2002) |
